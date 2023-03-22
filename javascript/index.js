@@ -25,6 +25,7 @@ function handleSubmit(e) {
   // console.log(results);
 
   showResults(results);
+  addColors(results);
 }
 
 const titleResult = document.querySelector(".results h2");
@@ -86,4 +87,34 @@ function showResults(results) {
     default:
       titleResult.textContent = "Wops, cas innatendu.";
   }
+}
+
+/**
+ * Mise en place d'une couleur en fonction de la réponse. Si la réponse est correcte alors c'est la couleur du block if sinon, c'est la couleur du block else.
+ */
+const questions = document.querySelectorAll(".question-block");
+function addColors(results) {
+  results.forEach((response, index) => {
+    if (results[index]) {
+      questions[index].style.backgroundImage =
+        "linear-gradient(to right, #a8ff78, #78ffd6)";
+    } else {
+      questions[index].style.backgroundImage =
+        "linear-gradient(to right, #f5567b, #fd674c)";
+    }
+  });
+}
+
+/**
+ * Je réinitialise la couleur si l'utilisateur s'est trompé.
+ */
+const inputs = document.querySelectorAll("input[type='radio']");
+inputs.forEach((input) => input.addEventListener("input", resetColor));
+
+function resetColor(e) {
+  // Je récupère l'attribut name et slice afin de récupérer le nombre. Je démarre à 0 grâce à -1.
+  const index = e.target.getAttribute("name").slice(1) - 1;
+  const parentQuestionBlock = questions[index];
+  parentQuestionBlock.style.backgroundColor = "#f1f1f1";
+  parentQuestionBlock.style.backgroundImage = "none";
 }
